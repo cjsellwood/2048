@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function App() {
   const [boardWidth, setBoardWidth] = useState(
@@ -13,8 +13,8 @@ function App() {
       const row = [];
       for (let j = 0; j < 4; j++) {
         row.push({
-          left: j * 0.25,
-          top: i * 0.25,
+          left: j,
+          top: i,
           occupied: false,
         });
       }
@@ -32,8 +32,8 @@ function App() {
       const row = [];
       for (let j = 0; j < 4; j++) {
         row.push({
-          left: j * 0.25,
-          top: i * 0.25,
+          left: j,
+          top: i,
           occupied: board[i][j].occupied,
         });
       }
@@ -42,14 +42,29 @@ function App() {
     return boardCopy;
   };
 
-
   const [tiles, setTiles] = useState([]);
 
+  const duplicateTiles = () => {
+    const newTiles = [];
+    tiles.forEach((tile) => {
+      newTiles.push({ ...tile });
+    });
+    return newTiles;
+  };
+
+  // Spawn new tile in random position
   const spawnTile = () => {
     let occupied = true;
     let position;
     let row;
     let col;
+
+    // If board full don't spawn
+    if (tiles.length === 16) {
+      return;
+    }
+
+    // Search for empty space
     while (occupied) {
       row = Math.floor(Math.random() * 4);
       col = Math.floor(Math.random() * 4);
@@ -60,6 +75,8 @@ function App() {
     const newTile = {
       left: position.left,
       top: position.top,
+      leftFrom: position.left,
+      topFrom: position.top,
       value: 2,
     };
     setTiles([...tiles, newTile]);
@@ -75,29 +92,92 @@ function App() {
     setBoardWidth(Math.min(0.8 * window.innerWidth, 0.7 * window.innerHeight));
   };
 
+  // Move all tiles to the right
+  const moveRight = () => {
+    const newBoard = duplicateBoard();
+    const newTiles = duplicateTiles();
+
+    for (let i = 3; i >= 0; i--) {
+      for (let j = 0; j <= 3; j++) {
+        const tile = tiles.filter((tile) => {
+          return tile.left === i && tile.top === j;
+        });
+
+        // Stop if not a tile or in position would leave board if moved
+        if (!tile.length || i + 1 > 3) {
+          continue;
+        }
+        console.log(i, j);
+
+        // Get index of tile in state
+        const index = tiles.findIndex(
+          (tile) => tile.left === i && tile.top === j
+        );
+        console.log(index);
+
+        // Get how far the tile can move
+        let distance = 0;
+        let k = i + 1;
+        while (k <= 3 && !board[j][k].occupied) {
+          console.log("board", board[j][k]);
+          distance++;
+          k++;
+        }
+
+        console.log("di", distance);
+
+        // Move to right unoccupied space
+        newTiles[index].left = newTiles[index].left + distance;
+        newTiles[index].leftFrom = newTiles[index].left;
+
+        newBoard[j][i].occupied = false;
+        newBoard[j][i + distance].occupied = true;
+      }
+    }
+    setTiles(newTiles);
+    setBoard(newBoard);
+  };
+
+  // Press keys to move
+  const keyPressed = (e) => {
+    console.log(e);
+    if (e.key === "ArrowRight") {
+      moveRight();
+    }
+  };
+
+  // Focus wrapper on start to allow key presses
+  const wrapperRef = useRef(null);
+
   useEffect(() => {
     spawnTile();
     window.addEventListener("resize", windowResized);
+    // window.addEventListener("keydown", keyPressed, false);
+    wrapperRef.current.focus();
+    // eslint-disable-next-line
   }, []);
 
   console.log(board);
+  console.log("tiles", tiles);
 
-  const move = () => {
-    setBoard({ left: boardWidth * 0.25, top: 0 });
-  };
   return (
-    <div>
+    <div
+      className="wrapper"
+      onKeyDown={keyPressed}
+      tabIndex="0"
+      ref={wrapperRef}
+    >
       <div className="App">
         {tiles.map((tile) => {
           const tileStyle = {
-            left: `${tile.left * boardWidth}px`,
-            top: `${tile.top * boardWidth}px`,
+            left: `${tile.left * boardWidth * 0.25}px`,
+            top: `${tile.top * boardWidth * 0.25}px`,
           };
           return (
             <div
               className="tile"
-              style={tileStyle}
               key={`${tile.left}${tile.top}`}
+              style={tileStyle}
             >
               <div>
                 <p>{tile.value}</p>
@@ -106,7 +186,6 @@ function App() {
           );
         })}
       </div>
-      <button onClick={move}>Move</button>
     </div>
   );
 }
