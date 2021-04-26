@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import * as movement from "./functions/movement.js";
 
 function App() {
-  const [spawn, setSpawn] = useState(true)
+  const [spawn, setSpawn] = useState(true);
 
   const [boardWidth, setBoardWidth] = useState(
     Math.min(0.8 * window.innerWidth, 0.7 * window.innerHeight)
@@ -100,13 +100,24 @@ function App() {
     const newBoard = duplicateBoard();
     const newTiles = duplicateTiles();
 
-    let move = {didMove: false};
+    console.log(e)
+    let move = { didMove: false };
     switch (e.key) {
+      case "d":
       case "ArrowRight":
         move = movement.moveRight(newBoard, newTiles);
         break;
+      case "a":
       case "ArrowLeft":
-
+        move = movement.moveLeft(newBoard, newTiles);
+        break;
+      case "w":
+      case "ArrowUp":
+        move = movement.moveUp(newBoard, newTiles);
+        break;
+      case "s":
+      case "ArrowDown":
+        move = movement.moveDown(newBoard, newTiles);
         break;
       default:
         break;
@@ -135,8 +146,8 @@ function App() {
     setSpawn(false);
   }
 
-  console.log(board);
-  console.log("tiles", tiles);
+  // console.log(board);
+  // console.log("tiles", tiles);
 
   return (
     <div
