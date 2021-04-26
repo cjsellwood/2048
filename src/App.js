@@ -1,7 +1,10 @@
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
+import * as movement from "./functions/movement.js";
 
 function App() {
+  const [spawn, setSpawn] = useState(true)
+
   const [boardWidth, setBoardWidth] = useState(
     Math.min(0.8 * window.innerWidth, 0.7 * window.innerHeight)
   );
@@ -92,57 +95,27 @@ function App() {
     setBoardWidth(Math.min(0.8 * window.innerWidth, 0.7 * window.innerHeight));
   };
 
-  // Move all tiles to the right
-  const moveRight = () => {
+  // Press keys to move
+  const keyPressed = (e) => {
     const newBoard = duplicateBoard();
     const newTiles = duplicateTiles();
 
-    for (let i = 3; i >= 0; i--) {
-      for (let j = 0; j <= 3; j++) {
-        const tile = tiles.filter((tile) => {
-          return tile.left === i && tile.top === j;
-        });
+    let move = {didMove: false};
+    switch (e.key) {
+      case "ArrowRight":
+        move = movement.moveRight(newBoard, newTiles);
+        break;
+      case "ArrowLeft":
 
-        // Stop if not a tile or in position would leave board if moved
-        if (!tile.length || i + 1 > 3) {
-          continue;
-        }
-        console.log(i, j);
-
-        // Get index of tile in state
-        const index = tiles.findIndex(
-          (tile) => tile.left === i && tile.top === j
-        );
-        console.log(index);
-
-        // Get how far the tile can move
-        let distance = 0;
-        let k = i + 1;
-        while (k <= 3 && !board[j][k].occupied) {
-          console.log("board", board[j][k]);
-          distance++;
-          k++;
-        }
-
-        console.log("di", distance);
-
-        // Move to right unoccupied space
-        newTiles[index].left = newTiles[index].left + distance;
-        newTiles[index].leftFrom = newTiles[index].left;
-
-        newBoard[j][i].occupied = false;
-        newBoard[j][i + distance].occupied = true;
-      }
+        break;
+      default:
+        break;
     }
-    setTiles(newTiles);
-    setBoard(newBoard);
-  };
 
-  // Press keys to move
-  const keyPressed = (e) => {
-    console.log(e);
-    if (e.key === "ArrowRight") {
-      moveRight();
+    if (move.didMove) {
+      setBoard(move.movedBoard);
+      setTiles(move.movedTiles);
+      setSpawn(true);
     }
   };
 
@@ -150,12 +123,17 @@ function App() {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
-    spawnTile();
     window.addEventListener("resize", windowResized);
     // window.addEventListener("keydown", keyPressed, false);
     wrapperRef.current.focus();
     // eslint-disable-next-line
   }, []);
+
+  // Spawn on first load and if last movement set it to true
+  if (spawn) {
+    spawnTile();
+    setSpawn(false);
+  }
 
   console.log(board);
   console.log("tiles", tiles);
