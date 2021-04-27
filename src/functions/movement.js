@@ -10,37 +10,65 @@ export const moveRight = (movedBoard, movedTiles) => {
       if (!tile.length || i === 3) {
         continue;
       }
-      console.log(i, j);
 
       // Get index of tile in state
       const index = movedTiles.findIndex(
         (tile) => tile.left === i && tile.top === j
       );
-      console.log(index);
 
       // Get how far the tile can move
       let distance = 0;
       let k = i + 1;
       while (k <= 3 && !movedBoard[j][k].occupied) {
-        console.log("movedBoard", movedBoard[j][k]);
         distance++;
         k++;
       }
 
-      console.log("di", distance);
+      // Get index of hit tile
+      const hitIndex = movedTiles.findIndex(
+        (tile) => tile.left === i + distance + 1 && tile.top === j
+      );
 
-      // Return if nothing can move
-      if (!distance) {
-        continue;
+      // Check if can merge
+      if (
+        distance + i + 1 <= 3 &&
+        movedBoard[j][i + distance + 1].occupied &&
+        hitIndex !== -1 &&
+        movedTiles[hitIndex].value === movedTiles[index].value
+      ) {
+        console.log("merge");
+
+        console.log("mer", movedTiles[index], movedTiles[hitIndex]);
+
+        // If values equal merge tiles
+
+        console.log("go");
+        // Change value of hit tile
+        movedTiles[hitIndex].value = movedTiles[hitIndex].value * 2;
+
+        // Delete current tile
+        movedTiles.splice(index, 1);
+
+        // Change to unoccupied
+        movedBoard[j][i].occupied = false;
+
+        didMove = true;
+      } else {
+        // Return if nothing can move
+        if (!distance) {
+          continue;
+        }
+
+        // Move to right unoccupied space
+        movedTiles[index].leftFrom = movedTiles[index].left;
+        movedTiles[index].left = movedTiles[index].left + distance;
+
+        console.log(movedTiles);
+
+        movedBoard[j][i].occupied = false;
+        movedBoard[j][i + distance].occupied = true;
+        didMove = true;
       }
-
-      // Move to right unoccupied space
-      movedTiles[index].left = movedTiles[index].left + distance;
-      movedTiles[index].leftFrom = movedTiles[index].left;
-
-      movedBoard[j][i].occupied = false;
-      movedBoard[j][i + distance].occupied = true;
-      didMove = true;
     }
   }
   return { movedBoard, movedTiles, didMove };
@@ -85,8 +113,9 @@ export const moveLeft = (movedBoard, movedTiles) => {
       }
 
       // Move to right unoccupied space
-      movedTiles[index].left = movedTiles[index].left - distance;
       movedTiles[index].leftFrom = movedTiles[index].left;
+      movedTiles[index].topFrom = movedTiles[index].top;
+      movedTiles[index].left = movedTiles[index].left - distance;
 
       movedBoard[j][i].occupied = false;
       movedBoard[j][i - distance].occupied = true;
@@ -133,8 +162,9 @@ export const moveUp = (movedBoard, movedTiles) => {
       }
 
       // Move to right unoccupied space
-      movedTiles[index].top = movedTiles[index].top - distance;
       movedTiles[index].topFrom = movedTiles[index].top;
+      movedTiles[index].leftFrom = movedTiles[index].left;
+      movedTiles[index].top = movedTiles[index].top - distance;
 
       movedBoard[i][j].occupied = false;
       movedBoard[i - distance][j].occupied = true;
@@ -181,8 +211,9 @@ export const moveDown = (movedBoard, movedTiles) => {
       }
 
       // Move to right unoccupied space
-      movedTiles[index].top = movedTiles[index].top + distance;
       movedTiles[index].topFrom = movedTiles[index].top;
+      movedTiles[index].leftFrom = movedTiles[index].left;
+      movedTiles[index].top = movedTiles[index].top + distance;
 
       movedBoard[i][j].occupied = false;
       movedBoard[i + distance][j].occupied = true;

@@ -98,9 +98,13 @@ function App() {
   // Press keys to move
   const keyPressed = (e) => {
     const newBoard = duplicateBoard();
-    const newTiles = duplicateTiles();
+    let newTiles = duplicateTiles();
 
-    console.log(e)
+    // Reset topFrom and leftFrom
+    newTiles = newTiles.map((tile) => {
+      return { ...tile, topFrom: tile.top, leftFrom: tile.left };
+    });
+
     let move = { didMove: false };
     switch (e.key) {
       case "d":
@@ -135,7 +139,6 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", windowResized);
-    // window.addEventListener("keydown", keyPressed, false);
     wrapperRef.current.focus();
     // eslint-disable-next-line
   }, []);
@@ -157,18 +160,28 @@ function App() {
       ref={wrapperRef}
     >
       <div className="App">
-        {tiles.map((tile) => {
+        {tiles.map((tile, index) => {
           const tileStyle = {
             left: `${tile.left * boardWidth * 0.25}px`,
             top: `${tile.top * boardWidth * 0.25}px`,
+            "--left": `${tile.left * boardWidth * 0.25}px`,
+            "--leftFrom": `${tile.leftFrom * boardWidth * 0.25}px`,
+            "--top": `${tile.top * boardWidth * 0.25}px`,
+            "--topFrom": `${tile.topFrom * boardWidth * 0.25}px`,
+            // animation: "slide 0.1s", Turn off for now
           };
+
+          // If last fade in after movement
+          if (index === tiles.length - 1) {
+            tileStyle.animation = "fadeIn 0.3s cubic-bezier(1,0,1,.001)";
+          }
           return (
             <div
               className="tile"
               key={`${tile.left}${tile.top}`}
               style={tileStyle}
             >
-              <div>
+              <div className={`tile-${tile.value}`}>
                 <p>{tile.value}</p>
               </div>
             </div>
