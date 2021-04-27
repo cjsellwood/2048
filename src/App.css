@@ -10,8 +10,30 @@
 .wrapper {
   height: 100vh;
   width: 100vw;
-  padding-top: 5vh;
   box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
+}
+
+.header {
+  width: min(80vw, 70vh);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header button {
+  font-size: 1.5rem;
+  border: none;
+  background-color: rgb(232, 246, 240);
+  padding: 10px;
+  cursor: pointer;
 }
 
 .tile {
@@ -60,45 +82,62 @@
 }
 
 .tile-2 {
-  background-color: hsl(0, 100%, 75%)
+  background-color: hsl(0, 100%, 75%);
 }
 
 .tile-4 {
-  background-color: hsl(25, 100%, 75%)
+  background-color: hsl(25, 100%, 75%);
 }
 
 .tile-8 {
-  background-color: hsl(50, 100%, 75%)
+  background-color: hsl(50, 100%, 75%);
 }
 
 .tile-16 {
-  background-color: hsl(75, 100%, 75%)
+  background-color: hsl(75, 100%, 75%);
 }
 
 .tile-32 {
-  background-color: hsl(100, 100%, 75%)
+  background-color: hsl(100, 100%, 75%);
 }
 
 .tile-64 {
-  background-color: hsl(125, 100%, 75%)
+  background-color: hsl(125, 100%, 75%);
 }
 
 .tile-128 {
-  background-color: hsl(150, 100%, 75%)
+  background-color: hsl(150, 100%, 75%);
 }
 
 .tile-256 {
-  background-color: hsl(175, 100%, 75%)
+  background-color: hsl(175, 100%, 75%);
 }
 
 .tile-512 {
-  background-color: hsl(200, 100%, 75%)
+  background-color: hsl(200, 100%, 75%);
 }
 
 .tile-1024 {
-  background-color: hsl(225, 100%, 75%)
+  background-color: hsl(225, 100%, 75%);
 }
 
 .tile-2048 {
-  background-color: hsl(250, 100%, 75%)
+  background-color: hsl(250, 100%, 75%);
+}
+
+.winner {
+  background-color: rgba(255, 255, 255, 0.876);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: calc(0.15 * min(80vw, 70vh));
+  box-sizing: border-box;
+}
+
+.winner h1 {
+  font-size: 2rem;
 }

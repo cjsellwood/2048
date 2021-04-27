@@ -1,4 +1,4 @@
-export const moveRight = (movedBoard, movedTiles) => {
+export const moveRight = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 3; i >= 0; i--) {
     for (let j = 0; j <= 3; j++) {
@@ -43,6 +43,10 @@ export const moveRight = (movedBoard, movedTiles) => {
         // If values equal merge tiles
 
         console.log("go");
+
+        // Add to score
+        movedScore += movedTiles[hitIndex].value * 2;
+
         // Change value of hit tile
         movedTiles[hitIndex].value *= 2;
 
@@ -71,10 +75,10 @@ export const moveRight = (movedBoard, movedTiles) => {
       }
     }
   }
-  return { movedBoard, movedTiles, didMove };
+  return { movedBoard, movedTiles, didMove, movedScore };
 };
 
-export const moveLeft = (movedBoard, movedTiles) => {
+export const moveLeft = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 0; i <= 3; i++) {
     for (let j = 0; j <= 3; j++) {
@@ -119,6 +123,10 @@ export const moveLeft = (movedBoard, movedTiles) => {
         // If values equal merge tiles
 
         console.log("go");
+
+        // Add to score
+        movedScore += movedTiles[hitIndex].value * 2;
+
         // Change value of hit tile
         movedTiles[hitIndex].value *= 2;
 
@@ -145,10 +153,10 @@ export const moveLeft = (movedBoard, movedTiles) => {
       }
     }
   }
-  return { movedBoard, movedTiles, didMove };
+  return { movedBoard, movedTiles, didMove, movedScore };
 };
 
-export const moveUp = (movedBoard, movedTiles) => {
+export const moveUp = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 0; i <= 3; i++) {
     for (let j = 0; j <= 3; j++) {
@@ -193,6 +201,10 @@ export const moveUp = (movedBoard, movedTiles) => {
         // If values equal merge tiles
 
         console.log("go");
+
+        // Add to score
+        movedScore += movedTiles[hitIndex].value * 2;
+
         // Change value of hit tile
         movedTiles[hitIndex].value *= 2;
 
@@ -218,10 +230,10 @@ export const moveUp = (movedBoard, movedTiles) => {
       }
     }
   }
-  return { movedBoard, movedTiles, didMove };
+  return { movedBoard, movedTiles, didMove, movedScore };
 };
 
-export const moveDown = (movedBoard, movedTiles) => {
+export const moveDown = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 3; i >= 0; i--) {
     for (let j = 0; j <= 3; j++) {
@@ -266,6 +278,10 @@ export const moveDown = (movedBoard, movedTiles) => {
         // If values equal merge tiles
 
         console.log("go");
+
+        // Add to score
+        movedScore += movedTiles[hitIndex].value * 2;
+
         // Change value of hit tile
         movedTiles[hitIndex].value *= 2;
 
@@ -281,16 +297,16 @@ export const moveDown = (movedBoard, movedTiles) => {
         if (!distance) {
           continue;
         }
-  
+
         // Move to right unoccupied space
         movedTiles[index].topFrom = movedTiles[index].top;
         movedTiles[index].top = movedTiles[index].top + distance;
-  
+
         movedBoard[i][j].occupied = false;
         movedBoard[i + distance][j].occupied = true;
         didMove = true;
       }
     }
   }
-  return { movedBoard, movedTiles, didMove };
+  return { movedBoard, movedTiles, didMove, movedScore };
 };

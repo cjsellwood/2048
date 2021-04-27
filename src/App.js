@@ -4,6 +4,9 @@ import * as movement from "./functions/movement.js";
 
 function App() {
   const [spawn, setSpawn] = useState(true);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [winner, setWinner] = useState(0);
 
   const [boardWidth, setBoardWidth] = useState(
     Math.min(0.8 * window.innerWidth, 0.7 * window.innerHeight)
@@ -97,6 +100,11 @@ function App() {
 
   // Press keys to move
   const keyPressed = (e) => {
+    // If on winning screen do nothing
+    if (winner === 1) {
+      return;
+    }
+
     const newBoard = duplicateBoard();
     let newTiles = duplicateTiles();
 
@@ -109,28 +117,48 @@ function App() {
     switch (e.key) {
       case "d":
       case "ArrowRight":
-        move = movement.moveRight(newBoard, newTiles);
+        move = movement.moveRight(newBoard, newTiles, Number(score));
         break;
       case "a":
       case "ArrowLeft":
-        move = movement.moveLeft(newBoard, newTiles);
+        move = movement.moveLeft(newBoard, newTiles, Number(score));
         break;
       case "w":
       case "ArrowUp":
-        move = movement.moveUp(newBoard, newTiles);
+        move = movement.moveUp(newBoard, newTiles, Number(score));
         break;
       case "s":
       case "ArrowDown":
-        move = movement.moveDown(newBoard, newTiles);
+        move = movement.moveDown(newBoard, newTiles, Number(score));
         break;
       default:
         break;
     }
 
+    console.log(move);
+
+    // If moved change board and tiles and spawn new tile
     if (move.didMove) {
       setBoard(move.movedBoard);
       setTiles(move.movedTiles);
       setSpawn(true);
+
+      // Update score
+      setScore(move.movedScore);
+
+      // Update best score in state and local storage
+      if (move.movedScore > bestScore) {
+        setBestScore(move.movedScore);
+        localStorage.setItem("bestScore", move.movedScore);
+      }
+
+      // Check to see if 2048 was achieved
+      const winning = move.movedTiles.filter(tile => tile.value === 2048);
+
+      winning.push(2048)
+      if (winning.length) {
+        setWinner(winner + 1)
+      }
     }
   };
 
@@ -140,6 +168,13 @@ function App() {
   useEffect(() => {
     window.addEventListener("resize", windowResized);
     wrapperRef.current.focus();
+
+    // Get previous best score
+    const bestLocal = Number(localStorage.getItem("bestScore"))
+    if (bestLocal) {
+      setBestScore(bestLocal);
+    }
+
     // eslint-disable-next-line
   }, []);
 
@@ -152,6 +187,23 @@ function App() {
   // console.log(board);
   // console.log("tiles", tiles);
 
+  console.log(score, typeof score);
+  
+  // Reset game
+  const resetGame = () => {
+    setScore(0)
+    setBoard(createBoard());
+    setTiles([]);
+    setSpawn(true);
+    setWinner(0);
+  }
+
+  // Keep playing button
+  const keepPlaying = () => {
+    setWinner(2);
+    wrapperRef.current.focus();
+  }
+
   return (
     <div
       className="wrapper"
@@ -159,6 +211,19 @@ function App() {
       tabIndex="0"
       ref={wrapperRef}
     >
+      <div className="header">
+        <div>
+          <button onClick={resetGame}>New Game</button>
+        </div>
+        <div>
+          <h3>Score</h3>
+          <h4>{score}</h4>
+        </div>
+        <div>
+          <h3>Best</h3>
+          <h4>{bestScore}</h4>
+        </div>
+      </div>
       <div className="App">
         {tiles.map((tile, index) => {
           const tileStyle = {
@@ -168,12 +233,12 @@ function App() {
             "--leftFrom": `${tile.leftFrom * boardWidth * 0.25}px`,
             "--top": `${tile.top * boardWidth * 0.25}px`,
             "--topFrom": `${tile.topFrom * boardWidth * 0.25}px`,
-            // animation: "slide 0.1s", Turn off for now
+            animation: "slide 0.1s",
           };
 
           // If last fade in after movement
           if (index === tiles.length - 1) {
-            tileStyle.animation = "fadeIn 0.3s cubic-bezier(1,0,1,.001)";
+            tileStyle.animation = "fadeIn 0.2s cubic-bezier(1,0,1,.001)";
           }
           return (
             <div
@@ -187,6 +252,10 @@ function App() {
             </div>
           );
         })}
+        {winner === 1 ? <div className="winner">
+          <h1>Winner</h1>
+          <button onClick={keepPlaying}>Keep Playing</button>
+        </div> : null}
       </div>
     </div>
   );
