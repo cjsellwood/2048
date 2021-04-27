@@ -18,8 +18,8 @@
   width: calc(0.25 * min(80vw, 70vh));
   height: calc(0.25 * min(80vw, 70vh));
   font-size: 2rem;
-  padding: 10px;
-  background-color: white;
+  padding: calc(0.01 * min(80vw, 70vh));
+  background-color: transparent;
   position: absolute;
   box-sizing: border-box;
 }
