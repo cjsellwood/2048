@@ -36,14 +36,6 @@ export const moveRight = (movedBoard, movedTiles, movedScore) => {
         hitIndex !== -1 &&
         movedTiles[hitIndex].value === movedTiles[index].value
       ) {
-        console.log("merge");
-
-        console.log("mer", movedTiles[index], movedTiles[hitIndex]);
-
-        // If values equal merge tiles
-
-        console.log("go");
-
         // Add to score
         movedScore += movedTiles[hitIndex].value * 2;
 
@@ -66,8 +58,6 @@ export const moveRight = (movedBoard, movedTiles, movedScore) => {
         // Move to right unoccupied space
         movedTiles[index].leftFrom = movedTiles[index].left;
         movedTiles[index].left = movedTiles[index].left + distance;
-
-        console.log(movedTiles);
 
         movedBoard[j][i].occupied = false;
         movedBoard[j][i + distance].occupied = true;
@@ -271,14 +261,6 @@ export const moveDown = (movedBoard, movedTiles, movedScore) => {
         hitIndex !== -1 &&
         movedTiles[hitIndex].value === movedTiles[index].value
       ) {
-        console.log("merge");
-
-        console.log("mer", movedTiles[index], movedTiles[hitIndex]);
-
-        // If values equal merge tiles
-
-        console.log("go");
-
         // Add to score
         movedScore += movedTiles[hitIndex].value * 2;
 
