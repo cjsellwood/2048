@@ -1,45 +1,80 @@
 .App {
-  border: 2px solid black;
   width: min(80vw, 70vh);
   height: min(80vw, 70vh);
   display: block;
   position: relative;
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
 .wrapper {
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(32, 32, 32);
+}
+
+.wrapper:focus {
+  outline: none;
 }
 
 .header {
   width: min(80vw, 70vh);
   margin: 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
   align-items: center;
   justify-content: space-around;
 }
 
 .header div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
 }
 
 .header button {
-  font-size: 1.5rem;
+  font-size: calc(0.05 * min(80vw, 70vh));
   border: none;
-  background-color: rgb(232, 246, 240);
-  padding: 10px;
+  background-color: rgb(27, 27, 27);
+  padding: 10px 20px;
   cursor: pointer;
+  color: rgb(216, 216, 216);
+  margin: 0 auto;
+  display: block;
+  border: 1px solid rgb(49, 49, 49);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.header button:hover {
+  background-color: rgb(49, 49, 49);
+}
+
+.score {
+  color: rgb(219, 219, 219);
+  font-size: 1.2rem;
+}
+
+.score div {
+  text-align: center;
+  padding: 10px;
+}
+
+.score div * {
+  margin: 5px 0;
 }
 
 .tile {
   width: calc(0.25 * min(80vw, 70vh));
   height: calc(0.25 * min(80vw, 70vh));
-  font-size: 2rem;
   padding: calc(0.01 * min(80vw, 70vh));
   background-color: transparent;
   position: absolute;
@@ -52,6 +87,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  font-size: 3rem;
+  color: rgb(27, 27, 27);
 }
 
 :root {
@@ -82,47 +124,63 @@
 }
 
 .tile-2 {
-  background-color: hsl(0, 100%, 75%);
+  background-color: hsl(0, 100%, 65%);
 }
 
 .tile-4 {
-  background-color: hsl(25, 100%, 75%);
+  background-color: hsl(25, 100%, 65%);
 }
 
 .tile-8 {
-  background-color: hsl(50, 100%, 75%);
+  background-color: hsl(50, 100%, 65%);
 }
 
 .tile-16 {
-  background-color: hsl(75, 100%, 75%);
+  background-color: hsl(75, 100%, 65%);
 }
 
 .tile-32 {
-  background-color: hsl(100, 100%, 75%);
+  background-color: hsl(100, 100%, 65%);
 }
 
 .tile-64 {
-  background-color: hsl(125, 100%, 75%);
+  background-color: hsl(125, 100%, 65%);
 }
 
 .tile-128 {
-  background-color: hsl(150, 100%, 75%);
+  background-color: hsl(150, 100%, 65%);
 }
 
 .tile-256 {
-  background-color: hsl(175, 100%, 75%);
+  background-color: hsl(175, 100%, 65%);
 }
 
 .tile-512 {
-  background-color: hsl(200, 100%, 75%);
+  background-color: hsl(200, 100%, 65%);
 }
 
 .tile-1024 {
-  background-color: hsl(225, 100%, 75%);
+  background-color: hsl(225, 100%, 65%);
 }
 
 .tile-2048 {
-  background-color: hsl(250, 100%, 75%);
+  background-color: hsl(250, 100%, 65%);
+}
+
+.tile-4096 {
+  background-color: hsl(275, 100%, 65%);
+}
+
+.tile-8192 {
+  background-color: hsl(300, 100%, 65%);
+}
+
+.tile-16384 {
+  background-color: hsl(325, 100%, 65%);
+}
+
+.tile-32768 {
+  background-color: hsl(350, 100%, 65%);
 }
 
 .winner {
@@ -140,4 +198,24 @@
 
 .winner h1 {
   font-size: 2rem;
+}
+
+.grid {
+  width: calc(0.25 * min(80vw, 70vh));
+  height: calc(0.25 * min(80vw, 70vh));
+  padding: calc(0.01 * min(80vw, 70vh));
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: rgb(32, 32, 32);
+}
+
+.grid > div {
+  background-color: rgb(49, 49, 49);
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }

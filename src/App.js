@@ -153,11 +153,11 @@ function App() {
       }
 
       // Check to see if 2048 was achieved
-      const winning = move.movedTiles.filter(tile => tile.value === 2048);
+      const winning = move.movedTiles.filter((tile) => tile.value === 2048);
 
-      winning.push(2048)
+      winning.push(2048);
       if (winning.length) {
-        setWinner(winner + 1)
+        setWinner(winner + 1);
       }
     }
   };
@@ -170,7 +170,7 @@ function App() {
     wrapperRef.current.focus();
 
     // Get previous best score
-    const bestLocal = Number(localStorage.getItem("bestScore"))
+    const bestLocal = Number(localStorage.getItem("bestScore"));
     if (bestLocal) {
       setBestScore(bestLocal);
     }
@@ -188,21 +188,21 @@ function App() {
   // console.log("tiles", tiles);
 
   console.log(score, typeof score);
-  
+
   // Reset game
   const resetGame = () => {
-    setScore(0)
+    setScore(0);
     setBoard(createBoard());
     setTiles([]);
     setSpawn(true);
     setWinner(0);
-  }
+  };
 
   // Keep playing button
   const keepPlaying = () => {
     setWinner(2);
     wrapperRef.current.focus();
-  }
+  };
 
   return (
     <div
@@ -215,16 +215,68 @@ function App() {
         <div>
           <button onClick={resetGame}>New Game</button>
         </div>
-        <div>
-          <h3>Score</h3>
-          <h4>{score}</h4>
+        <div className="score">
+          <div>
+            <h3>Score</h3>
+            <h4>{score}</h4>
+          </div>
         </div>
-        <div>
-          <h3>Best</h3>
-          <h4>{bestScore}</h4>
+        <div className="score">
+          <div>
+            <h3>Best</h3>
+            <h4>{bestScore}</h4>
+          </div>
         </div>
       </div>
       <div className="App">
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
+        <div class="grid">
+          <div></div>
+        </div>
         {tiles.map((tile, index) => {
           const tileStyle = {
             left: `${tile.left * boardWidth * 0.25}px`,
@@ -252,10 +304,12 @@ function App() {
             </div>
           );
         })}
-        {winner === 1 ? <div className="winner">
-          <h1>Winner</h1>
-          <button onClick={keepPlaying}>Keep Playing</button>
-        </div> : null}
+        {winner === 1 ? (
+          <div className="winner">
+            <h1>Winner</h1>
+            <button onClick={keepPlaying}>Keep Playing</button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
