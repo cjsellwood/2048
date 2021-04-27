@@ -105,6 +105,18 @@ function App() {
       return;
     }
 
+    // Get direction from keyboard or on-screen buttons
+    let direction;
+    if (e.key === "d" || e.key === "ArrowRight" || e === "right") {
+      direction = "right";
+    } else if (e.key === "a" || e.key === "ArrowLeft" || e === "left") {
+      direction = "left";
+    } else if (e.key === "w" || e.key === "ArrowUp" || e === "up") {
+      direction = "up";
+    } else if (e.key === "s" || e.key === "ArrowDown" || e === "down") {
+      direction = "down";
+    }
+
     const newBoard = duplicateBoard();
     let newTiles = duplicateTiles();
 
@@ -114,28 +126,22 @@ function App() {
     });
 
     let move = { didMove: false };
-    switch (e.key) {
-      case "d":
-      case "ArrowRight":
+    switch (direction) {
+      case "right":
         move = movement.moveRight(newBoard, newTiles, Number(score));
         break;
-      case "a":
-      case "ArrowLeft":
+      case "left":
         move = movement.moveLeft(newBoard, newTiles, Number(score));
         break;
-      case "w":
-      case "ArrowUp":
+      case "up":
         move = movement.moveUp(newBoard, newTiles, Number(score));
         break;
-      case "s":
-      case "ArrowDown":
+      case "down":
         move = movement.moveDown(newBoard, newTiles, Number(score));
         break;
       default:
         break;
     }
-
-    console.log(move);
 
     // If moved change board and tiles and spawn new tile
     if (move.didMove) {
@@ -155,7 +161,6 @@ function App() {
       // Check to see if 2048 was achieved
       const winning = move.movedTiles.filter((tile) => tile.value === 2048);
 
-      winning.push(2048);
       if (winning.length) {
         setWinner(winner + 1);
       }
@@ -183,11 +188,6 @@ function App() {
     spawnTile();
     setSpawn(false);
   }
-
-  // console.log(board);
-  // console.log("tiles", tiles);
-
-  console.log(score, typeof score);
 
   // Reset game
   const resetGame = () => {
@@ -229,52 +229,52 @@ function App() {
         </div>
       </div>
       <div className="App">
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
-        <div class="grid">
+        <div className="grid">
           <div></div>
         </div>
         {tiles.map((tile, index) => {
@@ -310,6 +310,66 @@ function App() {
             <button onClick={keepPlaying}>Keep Playing</button>
           </div>
         ) : null}
+      </div>
+      <div className="buttons">
+        <div>
+          <button className="up" onClick={() => keyPressed("up")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
+              />
+            </svg>
+          </button>
+          <button className="left" onClick={() => keyPressed("left")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+              />
+            </svg>
+          </button>
+          <button className="right" onClick={() => keyPressed("right")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+              />
+            </svg>
+          </button>
+          <button className="down" onClick={() => keyPressed("down")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
