@@ -1,20 +1,17 @@
+// Get index of current tile in tiles array
+const getIndex = (tiles, left, top) => {
+  return tiles.findIndex((tile) => tile.left === left && tile.top === top);
+};
+
 export const moveRight = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 3; i >= 0; i--) {
     for (let j = 0; j <= 3; j++) {
-      const tile = movedTiles.filter((tile) => {
-        return tile.left === i && tile.top === j;
-      });
-
-      // Stop if not a tile or in position would leave moved if moved
-      if (!tile.length || i === 3) {
-        continue;
-      }
-
       // Get index of tile in state
-      const index = movedTiles.findIndex(
-        (tile) => tile.left === i && tile.top === j
-      );
+      const index = getIndex(movedTiles, i, j);
+
+      // Stop if not a tile
+      if (index === -1) continue;
 
       // Get how far the tile can move
       let distance = 0;
@@ -25,9 +22,7 @@ export const moveRight = (movedBoard, movedTiles, movedScore) => {
       }
 
       // Get index of hit tile
-      const hitIndex = movedTiles.findIndex(
-        (tile) => tile.left === i + distance + 1 && tile.top === j
-      );
+      const hitIndex = getIndex(movedTiles, i + distance + 1, j);
 
       // Check if can merge
       if (
@@ -72,19 +67,11 @@ export const moveLeft = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 0; i <= 3; i++) {
     for (let j = 0; j <= 3; j++) {
-      const tile = movedTiles.filter((tile) => {
-        return tile.left === i && tile.top === j;
-      });
-
-      // Stop if not a tile or in position would leave moved if moved
-      if (!tile.length || i === 0) {
-        continue;
-      }
-
       // Get index of tile in state
-      const index = movedTiles.findIndex(
-        (tile) => tile.left === i && tile.top === j
-      );
+      const index = getIndex(movedTiles, i, j);
+
+      // Stop if not a tile
+      if (index === -1) continue;
 
       // Get how far the tile can move
       let distance = 0;
@@ -95,9 +82,7 @@ export const moveLeft = (movedBoard, movedTiles, movedScore) => {
       }
 
       // Get index of hit tile
-      const hitIndex = movedTiles.findIndex(
-        (tile) => tile.left === i - distance - 1 && tile.top === j
-      );
+      const hitIndex = getIndex(movedTiles, i - distance - 1, j);
 
       // Check if can merge
       if (
@@ -106,14 +91,6 @@ export const moveLeft = (movedBoard, movedTiles, movedScore) => {
         hitIndex !== -1 &&
         movedTiles[hitIndex].value === movedTiles[index].value
       ) {
-        console.log("merge");
-
-        console.log("mer", movedTiles[index], movedTiles[hitIndex]);
-
-        // If values equal merge tiles
-
-        console.log("go");
-
         // Add to score
         movedScore += movedTiles[hitIndex].value * 2;
 
@@ -150,19 +127,11 @@ export const moveUp = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 0; i <= 3; i++) {
     for (let j = 0; j <= 3; j++) {
-      const tile = movedTiles.filter((tile) => {
-        return tile.left === j && tile.top === i;
-      });
-
-      // Stop if not a tile or in position would leave moved if moved
-      if (!tile.length || i === 0) {
-        continue;
-      }
-
       // Get index of tile in state
-      const index = movedTiles.findIndex(
-        (tile) => tile.left === j && tile.top === i
-      );
+      const index = getIndex(movedTiles, j, i);
+
+      // Stop if not a tile
+      if (index === -1) continue;
 
       // Get how far the tile can move
       let distance = 0;
@@ -173,9 +142,7 @@ export const moveUp = (movedBoard, movedTiles, movedScore) => {
       }
 
       // Get index of hit tile
-      const hitIndex = movedTiles.findIndex(
-        (tile) => tile.left === j && tile.top === i - distance - 1
-      );
+      const hitIndex = getIndex(movedTiles, j, i - distance - 1);
 
       // Check if can merge
       if (
@@ -184,14 +151,6 @@ export const moveUp = (movedBoard, movedTiles, movedScore) => {
         hitIndex !== -1 &&
         movedTiles[hitIndex].value === movedTiles[index].value
       ) {
-        console.log("merge");
-
-        console.log("mer", movedTiles[index], movedTiles[hitIndex]);
-
-        // If values equal merge tiles
-
-        console.log("go");
-
         // Add to score
         movedScore += movedTiles[hitIndex].value * 2;
 
@@ -227,19 +186,11 @@ export const moveDown = (movedBoard, movedTiles, movedScore) => {
   let didMove = false;
   for (let i = 3; i >= 0; i--) {
     for (let j = 0; j <= 3; j++) {
-      const tile = movedTiles.filter((tile) => {
-        return tile.left === j && tile.top === i;
-      });
-
-      // Stop if not a tile or in position would leave moved if moved
-      if (!tile.length || i === 3) {
-        continue;
-      }
-
       // Get index of tile in state
-      const index = movedTiles.findIndex(
-        (tile) => tile.left === j && tile.top === i
-      );
+      const index = getIndex(movedTiles, j, i);
+
+      // Stop if not a tile
+      if (index === -1) continue;
 
       // Get how far the tile can move
       let distance = 0;
@@ -250,9 +201,7 @@ export const moveDown = (movedBoard, movedTiles, movedScore) => {
       }
 
       // Get index of hit tile
-      const hitIndex = movedTiles.findIndex(
-        (tile) => tile.left === j && tile.top === i + distance + 1
-      );
+      const hitIndex = getIndex(movedTiles, j, i + distance + 1);
 
       // Check if can merge
       if (
