@@ -19,7 +19,7 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "rgb(255, 255, 255)",
   "background_color": "rgb(32, 32, 32)"
 }
