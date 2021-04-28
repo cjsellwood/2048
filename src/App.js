@@ -313,7 +313,11 @@ function App() {
       </div>
       <div className="buttons">
         <div>
-          <button className="up" onClick={() => keyPressed("up")}>
+          <button
+            className="up"
+            aria-label="up"
+            onClick={() => keyPressed("up")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -327,7 +331,11 @@ function App() {
               />
             </svg>
           </button>
-          <button className="left" onClick={() => keyPressed("left")}>
+          <button
+            className="left"
+            aria-label="left"
+            onClick={() => keyPressed("left")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -341,7 +349,11 @@ function App() {
               />
             </svg>
           </button>
-          <button className="right" onClick={() => keyPressed("right")}>
+          <button
+            className="right"
+            aria-label="right"
+            onClick={() => keyPressed("right")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -355,7 +367,11 @@ function App() {
               />
             </svg>
           </button>
-          <button className="down" onClick={() => keyPressed("down")}>
+          <button
+            className="down"
+            aria-label="down"
+            onClick={() => keyPressed("down")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
